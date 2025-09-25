@@ -10,6 +10,7 @@ local mode_color = theme.mode_color
 local conditions = require("plugins.lualine.conditions")
 local helpers = require("plugins.lualine.helpers")
 
+-- works
 M.mode = {
   function()
     return helpers.mode()
@@ -20,25 +21,16 @@ M.mode = {
   padding = { left = 0, right = 0 },
 }
 
+-- works
 M.git = {
-  "diff",
-  symbols = {
-    added = icons.git.added,
-    modified = icons.git.modified,
-    removed = icons.git.removed,
-  },
-  source = function()
-    local gitsigns = vim.b.gitsigns_status_dict
-    if gitsigns then
-      return {
-        added = gitsigns.added,
-        modified = gitsigns.changed,
-        removed = gitsigns.removed,
-      }
-    end
-  end,
+  "branch",
+  icon = " ",
+  cond = conditions.check_git_workspace,
+  color = { fg = colors.blue, bg = colors.bg_br },
+  padding = 1,
 }
 
+-- works
 M.win_number = {
   function()
     local winnr = vim.api.nvim_win_get_number(vim.api.nvim_get_current_win())
@@ -53,6 +45,7 @@ M.win_number = {
   color = { fg = colors.blue, bg = colors.bg_br },
 }
 
+-- works
 M.file_type_icon = {
   function()
     vim.api.nvim_command(
@@ -70,6 +63,7 @@ M.file_type_icon = {
   gui = "bold",
 }
 
+-- works
 M.file_name_and_info = {
   function()
     local fname = vim.fn.expand("%:p")
@@ -110,7 +104,12 @@ M.file_name_and_info = {
 M.git_diff = {
   "diff",
   source = helpers.diff_source,
-  symbols = { added = "  ", modified = "柳", removed = " " },
+  -- symbols = { added = "  ", modified = "柳", removed = " " },
+  symbols = {
+    added = icons.git.added,
+    modified = icons.git.modified,
+    removed = icons.git.removed,
+  },
   diff_color = {
     added = { fg = colors.git.add, bg = colors.bg },
     modified = { fg = colors.git.change, bg = colors.bg },
@@ -118,59 +117,6 @@ M.git_diff = {
   },
   color = {},
   cond = nil,
-}
-
-M.virtual_env = {
-  function()
-    local utils = require("lvim.core.lualine.utils")
-    if vim.bo.filetype == "python" then
-      local venv = os.getenv("CONDA_DEFAULT_ENV")
-      if venv then
-        return string.format("  (%s)", utils.env_cleanup(venv))
-      end
-      venv = os.getenv("VIRTUAL_ENV")
-      if venv then
-        return string.format("  (%s)", utils.env_cleanup(venv))
-      end
-      return ""
-    end
-    return ""
-  end,
-  color = { fg = colors.green },
-  cond = conditions.hide_in_width,
-}
-
-M.testing_status = {
-  provider = function()
-    return helpers.testing()
-  end,
-  enabled = function()
-    return helpers.testing() ~= nil
-  end,
-  hl = {
-    fg = colors.fg,
-  },
-  left_sep = " ",
-  right_sep = {
-    str = " |",
-    hl = { fg = colors.fg },
-  },
-}
-
-M.using_persistence = {
-  provider = function()
-    if vim.g.using_persistence then
-      return "  |"
-    elseif vim.g.using_persistence == false then
-      return "  |"
-    end
-  end,
-  enabled = function()
-    return helpers.using_session()
-  end,
-  hl = {
-    fg = colors.fg,
-  },
 }
 
 M.readonly_status = {
@@ -183,6 +129,7 @@ M.readonly_status = {
   color = { fg = colors.red },
 }
 
+-- works
 M.diagnostics = {
   "diagnostics",
   sources = { "nvim_diagnostic" },
@@ -190,6 +137,7 @@ M.diagnostics = {
   cond = conditions.hide_in_width,
 }
 
+-- works
 M.treesitter_status = {
   function()
     if next(vim.treesitter.highlighter.active) then
@@ -202,6 +150,7 @@ M.treesitter_status = {
   cond = conditions.hide_in_width,
 }
 
+-- works, needs to add formatters and linters
 M.lsp_status = {
   function(msg)
     msg = msg or kind.icons.ls_inactive .. "LS Inactive"
@@ -212,7 +161,6 @@ M.lsp_status = {
       end
       return msg
     end
-    local buf_ft = vim.bo.filetype
     local buf_client_names = {}
     local trim_width = 120
     local trim = vim.fn.winwidth(0) < trim_width
@@ -257,12 +205,14 @@ M.lsp_status = {
   cond = conditions.hide_in_width,
 }
 
+-- works
 M.file_position = {
   "location",
   padding = 1,
   color = { fg = colors.orange },
 }
 
+-- works
 M.file_size = {
   function()
     local function format_file_size(file)
@@ -295,12 +245,7 @@ M.file_format = {
   cond = conditions.hide_in_width,
 }
 
-M.clock = {
-  clock,
-  cond = conditions.hide_in_width,
-  color = { fg = colors.blue, bg = colors.bg },
-}
-
+-- works
 M.file_scroll = {
   function()
     local current_line = vim.fn.line(".")
@@ -315,6 +260,7 @@ M.file_scroll = {
   cond = nil,
 }
 
+-- works
 M.project = {
   function()
     -- Get current working directory

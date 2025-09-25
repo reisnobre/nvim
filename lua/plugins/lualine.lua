@@ -1,5 +1,11 @@
 local M = {}
+local conditions = require("plugins.lualine.conditions")
 local components = require("plugins.lualine.components")
+local theme = require("utils.theme")
+local colors = theme.colors.catppuccin[theme.catppuccin_theme]
+local mode_color = require("utils.theme").mode_color
+local _time = os.date("*t")
+local icons = LazyVim.config.icons
 
 local sections = {
   -- these are to remove the defaults
@@ -10,17 +16,38 @@ local sections = {
   lualine_z = {},
   -- These will be filled later
   lualine_c = {},
-  lualine_x = {},
+  lualine_x = {
+    {
+      "diff",
+      symbols = {
+        added = icons.git.added,
+        modified = icons.git.modified,
+        removed = icons.git.removed,
+      },
+      source = function()
+        local gitsigns = vim.b.gitsigns_status_dict
+        if gitsigns then
+          return {
+            added = gitsigns.added,
+            modified = gitsigns.changed,
+            removed = gitsigns.removed,
+          }
+        end
+      end,
+    },
+    components.git_diff,
+    components.readonly_status,
+    components.diagnostics,
+    components.treesitter_status,
+    components.lsp_status,
+    components.file_position,
+    components.file_scroll,
+  },
 }
 
 -- Inserts a component in lualine_c at left section
 local function ins_left(component)
   table.insert(sections.lualine_c, component)
-end
-
--- Inserts a component in lualine_x ot right section
-local function ins_right(component)
-  table.insert(sections.lualine_x, component)
 end
 
 -- Mode
@@ -41,23 +68,6 @@ ins_left(components.file_name_and_info)
 
 -- Diff
 ins_left(components.git_diff)
-
-ins_right(components.readonly_status)
-
--- Diagnostics
-ins_right(components.diagnostics)
-
--- Treesitter
-ins_right(components.treesitter_status)
-
--- Lsp status
-ins_right(components.lsp_status)
-
---- Position
-ins_right(components.file_position)
-
--- Scroll
-ins_right(components.file_scroll)
 
 return {
   "nvim-lualine/lualine.nvim",
@@ -83,11 +93,63 @@ return {
 
     local opts = {
       options = {
-        theme = "auto",
         globalstatus = vim.o.laststatus == 3,
-        disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
+        icons_enabled = true,
+        -- Disable sections and component separators
+        component_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
+        theme = {
+          -- We are going to use lualine_c an lualine_x as left and
+          -- right section. Both are highlighted by c theme .  So we
+          -- are just setting default looks o statusline
+          normal = { c = { fg = colors.fg, bg = colors.bg } },
+          inactive = { c = { fg = colors.fg, bg = colors.bg } },
+        },
+        disabled_filetypes = {
+          "dashboard",
+          "NvimTree",
+          "Outline",
+          "alpha",
+          "vista",
+          "vista_kind",
+          "TelescopePrompt",
+          "terminal",
+          "ministarter",
+          "snacks_dashboard",
+        },
+        always_divide_middle = true,
       },
       sections = sections,
+      inactive_sections = {
+        -- these are to remove the defaults
+        lualine_a = {},
+        lualine_v = {},
+        lualine_y = {},
+        lualine_z = {},
+        lualine_c = {
+          {
+            function()
+              local selector = math.floor(_time.hour / 8) + 1
+              local icns = {
+                "  ",
+                "  ",
+                "  ",
+              }
+              return icns[selector]
+            end,
+            color = function()
+              return { bg = mode_color[vim.fn.mode()], fg = colors.bg_alt }
+            end,
+            padding = { left = 0, right = 0 },
+          },
+          {
+            "filename",
+            cond = conditions.buffer_not_empty,
+            color = { fg = colors.blue, gui = "bold" },
+          },
+        },
+        lualine_x = {},
+      },
       extensions = { "neo-tree", "lazy", "fzf" },
     }
 
