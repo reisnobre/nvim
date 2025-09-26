@@ -1,4 +1,3 @@
-local prefix = "<leader>"
 local fugitive_commands = {
   "G",
   "Git",
@@ -22,18 +21,7 @@ return {
     "folke/which-key.nvim",
     opts = {
       preset = "helix",
-      defaults = {},
-      spec = {
-        {
-          mode = { "n" },
-          {
-            prefix .. "gs",
-            ":Git<CR>",
-            group = "git",
-            desc = "Fugitive",
-          },
-        },
-      },
-    },
+      defaults = {}
+    }
   },
 }

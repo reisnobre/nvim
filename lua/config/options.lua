@@ -1,35 +1,40 @@
 -- Options are automatically loaded before lazy.nvim startup
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
-vim.g.lazyvim_php_lsp = "intelephense"
+local opt = vim.opt
+local g = vim.g
 
-vim.opt.runtimepath:append(vim.fn.getcwd() .. "/.nvim")
-vim.g.maplocalleader = ";"
-vim.g.dashboard_disable_statusline = 1
-vim.g.dashboard_enable_session = 0
-vim.g.catppuccin_flavour = "mocha"
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-vim.o.foldlevel = 4
-vim.o.foldminlines = 1
-vim.o.foldnestmax = 3
-vim.opt.backup = false -- creates a backup file
-vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
-vim.opt.cmdheight = 1
-vim.opt.guifont = "FiraCode Nerd Font:h13"
-vim.opt.joinspaces = false
-vim.opt.list = true
-vim.opt.mouse = ""
-vim.opt.pumblend = 10
-vim.opt.relativenumber = true
-vim.opt.shiftwidth = 2
-vim.opt.softtabstop = 2
-vim.opt.tabstop = 2
-vim.opt.timeoutlen = 200
-vim.opt.wrap = false
-vim.o.foldtext =
-  [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
+g.autoformat = false
+g.catppuccin_flavour = "macchiato"
+g.dashboard_disable_statusline = 1
+g.dashboard_enable_session = 0
+g.lazyvim_php_lsp = "intelephense"
+g.maplocalleader = ";"
 
-vim.opt.fillchars = {
+-- Native inline completions don't support being shown as regular completions
+g.ai_cmp = false
+
+-- Set to `true` in your `options.lua` to enable experimental support for Next Edit Suggestions
+g.copilot_nes = false
+
+opt.backup = false -- creates a backup file
+opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
+opt.cmdheight = 1
+opt.completeopt = { "menu", "menuone", "noselect" }
+opt.guifont = "FiraCode Nerd Font:h13"
+opt.joinspaces = false
+opt.list = true
+opt.mouse = ""
+opt.pumblend = 10
+opt.relativenumber = true
+opt.runtimepath:append(vim.fn.getcwd() .. "/.nvim")
+opt.shiftwidth = 2
+opt.softtabstop = 2
+opt.tabstop = 2
+opt.timeoutlen = 200
+opt.wrap = false
+
+opt.fillchars = {
   vert = "▕", -- alternatives │
   fold = " ",
   eob = " ", -- suppress ~ at EndOfBuffer
@@ -39,7 +44,8 @@ vim.opt.fillchars = {
   foldsep = "│",
   foldclose = "▸",
 }
-vim.opt.wildignore = {
+
+opt.wildignore = {
   "*.aux,*.out,*.toc",
   "*.o,*.obj,*.dll,*.jar,*.pyc,__pycache__,*.rbc,*.class",
   -- media
@@ -55,3 +61,12 @@ vim.opt.wildignore = {
   -- version control
   ".git,.svn",
 }
+
+-- Folding configuration
+-- local o = vim.o
+-- o.foldexpr = "nvim_treesitter#foldexpr()"
+-- o.foldlevel = 4
+-- o.foldminlines = 1
+-- o.foldnestmax = 3
+-- o.foldtext =
+--   [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]

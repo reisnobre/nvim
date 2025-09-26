@@ -67,9 +67,9 @@ M.nvim_tree_icons = {
     ignored = " ",
     unstaged = "󱍯 ",
     staged = " ",
-    -- modified = " ",
-    -- added = " ",
-    -- conflict = " ",
+    modified = " ",
+    added = " ",
+    conflict = " ",
   },
   folder = {
     arrow_closed = " ",

@@ -1,11 +1,9 @@
-local M = {}
 local conditions = require("plugins.lualine.conditions")
 local components = require("plugins.lualine.components")
 local theme = require("utils.theme")
 local colors = theme.colors.catppuccin[theme.catppuccin_theme]
 local mode_color = require("utils.theme").mode_color
 local _time = os.date("*t")
-local icons = LazyVim.config.icons
 
 local sections = {
   -- these are to remove the defaults
@@ -17,24 +15,6 @@ local sections = {
   -- These will be filled later
   lualine_c = {},
   lualine_x = {
-    {
-      "diff",
-      symbols = {
-        added = icons.git.added,
-        modified = icons.git.modified,
-        removed = icons.git.removed,
-      },
-      source = function()
-        local gitsigns = vim.b.gitsigns_status_dict
-        if gitsigns then
-          return {
-            added = gitsigns.added,
-            modified = gitsigns.changed,
-            removed = gitsigns.removed,
-          }
-        end
-      end,
-    },
     components.git_diff,
     components.readonly_status,
     components.diagnostics,
@@ -55,7 +35,7 @@ ins_left(components.mode)
 
 -- Git info
 ins_left(components.project)
-ins_left(components.git)
+-- ins_left(components.git)
 
 -- Window number
 ins_left(components.win_number)
@@ -65,9 +45,6 @@ ins_left(components.file_type_icon)
 
 -- File read info
 ins_left(components.file_name_and_info)
-
--- Diff
-ins_left(components.git_diff)
 
 return {
   "nvim-lualine/lualine.nvim",

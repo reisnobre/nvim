@@ -5,7 +5,11 @@ M.catppuccin_theme = "mocha"
 M.catppuccin = function()
   local catppuccin = require("catppuccin")
   catppuccin.setup({
-    transparent_background = lvim.transparent_window,
+    transparent_background = true,
+   float = {
+        transparent = false, -- enable transparent floating windows
+        solid = false, -- use solid styling for floating windows, see |winborder|
+    },
     term_colors = false,
     styles = {
       comments = { "italic", "bold" },
@@ -22,7 +26,7 @@ M.catppuccin = function()
       conditionals = { "italic" },
     },
     dim_inactive = {
-      enabled = lvim.builtin.global_statusline,
+      enabled = true,
       shade = "dark",
       percentage = 0.15,
     },
@@ -33,9 +37,7 @@ M.catppuccin = function()
       cmp = true,
       which_key = true,
       lightspeed = true,
-      nvimtree = {
-        transparent_panel = lvim.transparent_window,
-      },
+      nvimtree = true,
       native_lsp = {
         enabled = true,
         virtual_text = {
