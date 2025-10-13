@@ -1,18 +1,8 @@
 return {
   -- Configure LazyVim to load catppuccin
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "catppuccin-macchiato",
-    },
-  },
+  { "LazyVim/LazyVim", opts = { colorscheme = "catppuccin-macchiato" } },
   -- Disable scroll in snacks.nvim
-  {
-    "snacks.nvim",
-    opts = {
-      scroll = { enabled = false },
-    },
-  },
+  { "snacks.nvim", opts = { scroll = { enabled = false } } },
   -- Disable completion preselect
   {
     "saghen/blink.cmp",
@@ -25,25 +15,6 @@ return {
     }
   },
   -- catppuccin theme
-  {
-    desc = "Catppuccin Theme",
-    recommended = true,
-    "catppuccin/nvim"
-  },
-  -- missing config
-  {
-    "ray-x/lsp_signature.nvim",
-  },
-  -- tailwindcss support
-  {
-    "luckasRanarison/tailwind-tools.nvim",
-    name = "tailwind-tools",
-    build = ":UpdateRemotePlugins",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-telescope/telescope.nvim", -- optional
-      "neovim/nvim-lspconfig", -- optional
-    },
-    opts = {}, -- your configuration
-  }
+  { "catppuccin/nvim", desc = "Catppuccin Theme", recommended = true },
+  { "norcalli/nvim-colorizer.lua", event = "VeryLazy" }, --  Display hex colors preview
 }
