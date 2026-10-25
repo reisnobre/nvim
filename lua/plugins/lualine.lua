@@ -35,7 +35,7 @@ ins_left(components.mode)
 
 -- Git info
 ins_left(components.project)
--- ins_left(components.git)
+ins_left(components.git)
 
 -- Window number
 ins_left(components.win_number)

@@ -61,12 +61,3 @@ opt.wildignore = {
   -- version control
   ".git,.svn",
 }
-
--- Folding configuration
--- local o = vim.o
--- o.foldexpr = "nvim_treesitter#foldexpr()"
--- o.foldlevel = 4
--- o.foldminlines = 1
--- o.foldnestmax = 3
--- o.foldtext =
---   [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
